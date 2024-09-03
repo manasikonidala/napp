@@ -4,19 +4,21 @@ receivers:
       http:
       grpc:
 exporters:
-  debug:
-    verbosity: detailed
+  emptyexporter: {}
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+  jaeger:
+    endpoint: "http://localhost:14250"
+
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: 
-        - debug
+      exporters: [emptyexporter, jaeger]
     metrics:
       receivers: [otlp]
-      exporters: 
-        - debug
+      exporters: [emptyexporter, prometheus]
     logs:
       receivers: [otlp]
-      exporters: 
-        - debug
+      exporters: [emptyexporter]
+
